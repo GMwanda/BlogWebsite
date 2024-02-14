@@ -1,8 +1,4 @@
-Sure, here's a sample README file tailored for your Laravel, Alpine.js, Jetstream, Livewire, and Filament project:
-
----
-
-# Blog Website using Laravel, Alpine.js, Jetstream, Livewire, and Filament
+# Blog Website
 
 This project is a blog website developed using Laravel, Alpine.js, Jetstream, Livewire, and Filament. It provides a modern, responsive, and dynamic platform for creating, managing, and sharing blog posts.
 
