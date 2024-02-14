@@ -18,3 +18,4 @@ class SearchBox extends Component
         return view('livewire.search-box');
     }
 }
+ 
