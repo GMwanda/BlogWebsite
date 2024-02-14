@@ -68,8 +68,4 @@ Contributions are welcome! Feel free to submit bug reports, feature requests, or
 4. Push to the branch (`git push origin feature/MyFeature`)
 5. Create a new Pull Request
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ---
