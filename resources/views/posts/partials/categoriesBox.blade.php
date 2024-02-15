@@ -4,7 +4,7 @@
 
         @foreach ($categories as $category)
             <x-badge wire:navigate
-                href="{{ route('blog', ['category' => $category->title]) }}">{{ $category->title }}</x-badge>
+                href="{{ route('blog', ['category' => $category->slug]) }}">{{ $category->title }}</x-badge>
         @endforeach
 
     </div>

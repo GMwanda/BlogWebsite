@@ -6,10 +6,10 @@
             @endif
             @if ($this->activeCategory)
                 <x-badge wire:navigate
-                    href="{{ route('blog', ['category' => $this->activeCategory->title]) }}">{{ $this->activeCategory->title }}</x-badge>
+                    href="{{ route('blog', ['category' => $this->activeCategory->slug]) }}">{{ $this->activeCategory->title }}</x-badge>
             @endif
             @if ($search)
-                Searching {{ $search }}
+                Searching for <strong>{{ $search }}</strong>
             @endif
 
         </div>

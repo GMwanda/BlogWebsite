@@ -9,7 +9,7 @@
         <div class="flex items-center mb-2 gap-x-2">
             @if ($category = $post->categories()->first())
                 <x-badge wire:navigate
-                    href="{{ route('blog', ['category' => $category->title]) }}">{{ $category->title }}</x-badge>
+                    href="{{ route('blog', ['category' => $category->slug]) }}">{{ $category->title }}</x-badge>
             @endif
             <p class="text-gray-500 text-sm">{{ $post->published_at }}</p>
         </div>
