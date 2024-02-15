@@ -12,9 +12,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
@@ -26,15 +26,17 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->live()->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                    if ($operation === 'edit') {
-                        return;
-                    }
-                    $set('slug', Str::slug($state));
-                })->required()->minLength(1)->maxLength(150),
+                TextInput::make('title')
+                    ->live()
+                    ->required()->minLength(1)->maxLength(150)
+                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                        if ($operation === 'edit') {
+                            return;
+                        }
+
+                        $set('slug', Str::slug($state));
+                    }),
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord: true)->maxLength(150),
-                TextInput::make('text_color')->nullable(),
-                TextInput::make('bg_color')->nullable(),
             ]);
     }
 
@@ -44,8 +46,7 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('slug')->sortable()->searchable(),
-                TextColumn::make('text_color')->sortable()->searchable(),
-                TextColumn::make('bg_color')->sortable()->searchable(),
+
             ])
             ->filters([
                 //

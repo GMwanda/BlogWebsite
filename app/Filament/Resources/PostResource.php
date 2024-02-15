@@ -23,7 +23,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Descriptor\ReStructuredTextDescriptor;
 
 class PostResource extends Resource
 {
@@ -37,28 +36,37 @@ class PostResource extends Resource
             ->schema([
                 Section::make('Main Content')->schema(
                     [
-                        TextInput::make('title')->live()->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                            if ($operation === 'edit') {
-                                return;
-                            }
-                            $set('slug', Str::slug($state));
-                        })->required()->minLength(1)->maxLength(150),
-                        TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord: true)->maxLength(150),
-                        RichEditor::make('body')->required()->fileAttachmentsDirectory('posts/images')->columnSpanFull(),
-                    ],
+                        TextInput::make('title')
+                            ->live()
+                            ->required()->minLength(1)->maxLength(150)
+                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                if ($operation === 'edit') {
+                                    return;
+                                }
 
+                                $set('slug', Str::slug($state));
+                            }),
+                        TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord: true)->maxLength(150),
+                        RichEditor::make('body')
+                            ->required()
+                            ->fileAttachmentsDirectory('posts/images')->columnSpanFull()
+                    ]
                 )->columns(2),
-                Section::make('Meta Data')->schema(
+                Section::make('Meta')->schema(
                     [
-                        FileUpload::make('image')->image()->directory('posts/thumbnails'),
+                        FileUpload::make('image')->image()->directory('posts/thumbnails')->required(),
                         DateTimePicker::make('published_at')->nullable(),
                         Checkbox::make('featured'),
-                        Select::make('author')->relationship('author', 'name')->required()->searchable(),
-                        Select::make('category')->multiple()->relationship('category', 'slug')->searchable(),
-                    ],
-
-                )->columns(2),
-
+                        Select::make('user_id')
+                            ->relationship('author', 'name')
+                            ->searchable()
+                            ->required(),
+                        Select::make('categories')
+                            ->multiple()
+                            ->relationship('categories', 'title')
+                            ->searchable(),
+                    ]
+                ),
             ]);
     }
 
@@ -66,11 +74,11 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
+                // ImageColumn::make('image'),
                 TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('slug')->sortable()->searchable(),
                 TextColumn::make('author.name')->sortable()->searchable(),
-                TextColumn::make('published_at')->date('d-m-Y')->sortable()->searchable(),
+                TextColumn::make('published_at')->date('Y-m-d')->sortable()->searchable(),
                 CheckboxColumn::make('featured'),
             ])
             ->filters([

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -17,8 +18,8 @@ class Post extends Model
         'user_id',
         'title',
         'slug',
-        'body',
         'image',
+        'body',
         'published_at',
         'featured',
     ];
@@ -32,7 +33,7 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function category()
+    public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
@@ -47,18 +48,29 @@ class Post extends Model
         $query->where('featured', true);
     }
 
-    public function getExcerpt()
+    public function scopeWithCategory($query, string $category)
     {
-        return Str::limit(strip_tags($this->body), 100);
+        $query->whereHas('categories', function ($query) use ($category) {
+            $query->where('slug', $category);
+        });
     }
 
-    public function readingTime()
+    public function getExcerpt()
+    {
+        return Str::limit(strip_tags($this->body), 150);
+    }
+
+    public function getReadingTime()
     {
         $mins = round(str_word_count($this->body) / 250);
 
-        if ($mins <= 0)
-            $mins = 1;
+        return ($mins < 1) ? 1 : $mins;
+    }
 
-        return $mins;
+    public function getThumbnailImage()
+    {
+        $isUrl = str_contains($this->image, 'http');
+
+        return $isUrl ? $this->image : Storage::url($this->image);
     }
 }
