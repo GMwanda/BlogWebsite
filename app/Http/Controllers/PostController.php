@@ -24,4 +24,11 @@ class PostController extends Controller
             return $e->getMessage(); // You can replace this with a proper error handling mechanism
         }
     }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', [
+            'post' => $post
+        ]);
+    }
 }

@@ -55,7 +55,7 @@ class PostResource extends Resource
                 Section::make('Meta')->schema(
                     [
                         FileUpload::make('image')->image()->directory('posts/thumbnails')->required(),
-                        DateTimePicker::make('published_at')->nullable(),
+                        DateTimePicker::make('published_at')->required(),
                         Checkbox::make('featured'),
                         Select::make('user_id')
                             ->relationship('author', 'name')
@@ -63,10 +63,11 @@ class PostResource extends Resource
                             ->required(),
                         Select::make('categories')
                             ->multiple()
+                            ->required()
                             ->relationship('categories', 'title')
                             ->searchable(),
                     ]
-                ),
+                )->columns(3),
             ]);
     }
 
