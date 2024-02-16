@@ -1,4 +1,5 @@
 @props(['post'])
+@section('title', 'Blog')
 <article class="[&:not(:last-child)]:border-b border-gray-100 pb-10">
     <div class="article-body grid grid-cols-12 gap-3 mt-5 items-start">
         <div class="article-thumbnail col-span-4 flex items-center">
