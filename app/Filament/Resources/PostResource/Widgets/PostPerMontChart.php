@@ -9,7 +9,7 @@ use Flowframe\Trend\TrendValue;
 
 class PostPerMontChart extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'Post Publishing Trend';
 
     protected int | string | array $columnSpan = 'full';
     protected function getData(): array

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\CommentResource\Widgets\LatestCommentWidget;
 use App\Filament\Resources\PostResource\Widgets\PostPerMontChart;
 use App\Filament\Resources\UserResource\Widgets\UserStatsWidget;
 use Filament\Http\Middleware\Authenticate;
@@ -40,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 UserStatsWidget::class,
+                LatestCommentWidget::class,
                 PostPerMontChart::class,
                 
             ])
